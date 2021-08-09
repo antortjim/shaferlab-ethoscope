@@ -398,3 +398,27 @@ class OptomotorSleepDepriverSystematic(OptomotorSleepDepriver):
             return HasInteractedVariable(True), dic
 
         return HasInteractedVariable(False), {}
+
+
+class OptomotorSleepDepriverSystematicMultiplexed(OptomotorSleepDepriverSystematic):
+    _description = {"overview": "A stimulator to sleep deprive an animal using gear motors. See https://github.com/gilestrolab/ethoscope_hardware/tree/master/modules/gear_motor_sleep_depriver",
+                    "arguments": [
+                                    {"type": "str", "name": "interval", "description": "The recurence of the stimulus", "default": '{"1": 120, "3": 120, "5": 120, "7": 120, "9": 120, "12": 120, "14": 120, "16": 120, "18": 120, "20": 120}'},
+                                    {"type": "number", "min": 500, "max": 10000 , "step": 50, "name": "pulse_duration", "description": "For how long to deliver the stimulus(ms)", "default": 1000},
+                                    {"type": "number", "min": 0, "max": 3, "step": 1, "name": "stimulus_type",  "description": "1 = opto, 2= moto", "default": 2},
+                                    {"type": "date_range", "name": "date_range",
+                                     "description": "A date and time range in which the device will perform (see http://tinyurl.com/jv7k826)",
+                                     "default": ""}
+                                   ]}
+
+    _HardwareInterfaceClass = OptoMotor
+    _roi_to_channel_opto = {1:1, 3:3, 5:5, 7:7, 9:9,
+                            12:23, 14:21,16:19, 18:17, 20:15}
+    _roi_to_channel_moto = {1:0, 3:2, 5:4, 7:6, 9:8,
+                            12:22, 14:20, 16:18, 18:16, 20:14}
+
+    def __init__(self, *args, **kwargs):
+
+        interval = json.loads(kwargs["interval"])
+        kwargs["interval"] = int(interval[self._tracker._roi.idx])
+        super(OptomotorSleepDepriverSystematicMultiplexed, self).__init__(*args, **kwargs)
