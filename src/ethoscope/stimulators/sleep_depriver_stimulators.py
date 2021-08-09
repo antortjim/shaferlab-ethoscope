@@ -424,5 +424,5 @@ class OptomotorSleepDepriverSystematicMultiplexed(OptomotorSleepDepriverSystemat
     def __init__(self, *args, **kwargs):
 
         interval = json.loads(kwargs["interval"])
-        kwargs["interval"] = int(interval[self._tracker._roi.idx])
+        kwargs["interval"] = int(interval[str(self._tracker._roi.idx)])
         super(OptomotorSleepDepriverSystematicMultiplexed, self).__init__(*args, **kwargs)
