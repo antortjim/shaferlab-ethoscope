@@ -370,7 +370,7 @@ class OptomotorSleepDepriverSystematic(OptomotorSleepDepriver):
                             12:23, 14:21,16:19, 18:17, 20:15}
     _roi_to_channel_moto = {1:0, 3:2, 5:4, 7:6, 9:8,
                             12:22, 14:20, 16:18, 18:16, 20:14}
-
+    _roi_to_channel = _roi_to_channel_moto
 
     def __init__(self,
                  hardware_connection,
@@ -423,12 +423,14 @@ class OptomotorSleepDepriverSystematicMultiplexed(OptomotorSleepDepriverSystemat
     _roi_to_channel_moto = {1:0, 3:2, 5:4, 7:6, 9:8,
                             12:22, 14:20, 16:18, 18:16, 20:14}
 
+    _roi_to_channel = _roi_to_channel_moto
+
     def __init__(self, *args, **kwargs):
         super(OptomotorSleepDepriverSystematicMultiplexed, self).__init__(*args, **kwargs)
         self._interval_str = kwargs["interval"]
 
     def bind_tracker(self, *args, **kwargs):
         super(OptomotorSleepDepriverSystematicMultiplexed, self).bind_tracker(*args, **kwargs)
-        #print(self._interval)
         interval = json.loads(self._interval_str)
         self._interval = int(interval.get(str(self._tracker._roi.idx), 120)) * 1000
+        logging.warning(f"Stimulator for ROI {self._tracker._roi.idx} has interval: {self._interval}")
