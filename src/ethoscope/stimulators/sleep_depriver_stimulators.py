@@ -15,6 +15,7 @@ from ethoscope.hardware.interfaces.optomotor import OptoMotor
 import random
 import time
 import json
+import logging
 
 class IsMovingStimulator(BaseStimulator):
     _HardwareInterfaceClass = DefaultInterface
@@ -422,9 +423,12 @@ class OptomotorSleepDepriverSystematicMultiplexed(OptomotorSleepDepriverSystemat
     _roi_to_channel_moto = {1:0, 3:2, 5:4, 7:6, 9:8,
                             12:22, 14:20, 16:18, 18:16, 20:14}
 
+    def __init__(self, *args, **kwargs):
+        super(OptomotorSleepDepriverSystematicMultiplexed, self).__init__(*args, **kwargs)
+        self._interval_str = kwargs["interval"]
+
     def bind_tracker(self, *args, **kwargs):
         super(OptomotorSleepDepriverSystematicMultiplexed, self).bind_tracker(*args, **kwargs)
         #print(self._interval)
-        #logging.warning(self._interval)
-        interval = json.loads(self._interval)
-        self._interval = int(interval[str(self._tracker._roi.idx)])
+        interval = json.loads(self._interval_str)
+        self._interval = int(interval.get(str(self._tracker._roi.idx), 120)) * 1000
