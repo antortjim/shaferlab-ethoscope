@@ -422,8 +422,9 @@ class OptomotorSleepDepriverSystematicMultiplexed(OptomotorSleepDepriverSystemat
     _roi_to_channel_moto = {1:0, 3:2, 5:4, 7:6, 9:8,
                             12:22, 14:20, 16:18, 18:16, 20:14}
 
-    def __init__(self, *args, **kwargs):
-
-        interval = json.loads(kwargs["interval"])
-        kwargs["interval"] = int(interval[str(self._tracker._roi.idx)])
-        super(OptomotorSleepDepriverSystematicMultiplexed, self).__init__(*args, **kwargs)
+    def bind_tracker(self, *args, **kwargs):
+        super(OptomotorSleepDepriverSystematicMultiplexed, self).bind_tracker(*args, **kwargs)
+        #print(self._interval)
+        #logging.warning(self._interval)
+        interval = json.loads(self._interval)
+        self._interval = int(interval[str(self._tracker._roi.idx)])
