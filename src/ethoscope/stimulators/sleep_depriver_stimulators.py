@@ -14,6 +14,7 @@ from ethoscope.hardware.interfaces.optomotor import OptoMotor
 
 import random
 import time
+import json
 
 class IsMovingStimulator(BaseStimulator):
     _HardwareInterfaceClass = DefaultInterface
