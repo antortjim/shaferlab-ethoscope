@@ -384,9 +384,13 @@ class OptomotorSleepDepriverSystematic(OptomotorSleepDepriver):
 
         self._interval = interval  *1000 # ms used internally
 
-        super(OptomotorSleepDepriverSystematic, self).__init__(hardware_connection, 0,0,
-                                                               pulse_duration, stimulus_type,
-                                                               date_range)
+        super(OptomotorSleepDepriverSystematic, self).__init__(
+            hardware_connection,
+            velocity_correction_coef=0,
+            min_inactive_time=0,
+            pulse_duration=pulse_duration, stimulus_type=stimulus_type,
+            date_range=date_range
+        )
 
         self._t0 = 0
 
