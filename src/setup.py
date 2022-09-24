@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ethoscope',
-    version='1.0.0',
+    version='1.0.999',
     author=['Quentin Geissmann', 'Giorgio Gilestro', 'Luis Garcia'],
     author_email=['quentin.geissmann@gmail.com', 'giorgio@gilest.ro', 'luis.garcia@uni-muenster.de'],
     packages=find_packages(),
